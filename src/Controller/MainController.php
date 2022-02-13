@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\AutowireTrait;
 use Symfony\Flex\Response;
 
+/**
+ * Basic realization, with more time and motivation could be much better
+ */
 class MainController extends AbstractController
 {
     use AutowireTrait; // Autowiring in Laminas

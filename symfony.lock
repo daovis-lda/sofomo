@@ -1,4 +1,16 @@
 {
+    "laminas/laminas-eventmanager": {
+        "version": "3.4.0"
+    },
+    "laminas/laminas-json": {
+        "version": "3.3.0"
+    },
+    "laminas/laminas-stdlib": {
+        "version": "3.7.1"
+    },
+    "laminas/laminas-view": {
+        "version": "2.19.1"
+    },
     "psr/cache": {
         "version": "3.0.0"
     },

@@ -4,28 +4,21 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    logsDir: 'secret'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $logsDir: '%logsDir%'
 
     # explicitly configure the service
     App\Controller\MainController:
         tags: [ controller.service_arguments ]
-        autowire: true
-        arguments:
-            $logsDir: "%logsDir%"
         bind:
             # for any $logger argument, pass this specific service
             $logger: '@monolog.logger.doctrine'
             # for any $projectDir argument, pass this parameter value
             $projectDir: '%kernel.project_dir%'
-            $logsDir: '%logsDir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -16,6 +16,7 @@ class LogAnalyzerService
     public function execute(object $request): bool
     {
         assert($request instanceof LogAnalyzerRequest);
+        $result = false;
 
         $file = new SplFileObject($request->getLogsDir());
         $tmpFile = new SplFileObject($this->tmpFileName);
@@ -33,6 +34,7 @@ class LogAnalyzerService
             $rawArray = new DateTime($date);
             if ($rawArray >= $request->getOutdatedTime()) {
                 $tmpFile->fputcsv($file->fgetcsv());
+                $result = true;
             }
         }
 
@@ -43,6 +45,6 @@ class LogAnalyzerService
 
 //        throw LogFileException; we throw custom exception if smth will go wrong and will handle it in controller
 
-        return true;
+        return $result;
     }
 }

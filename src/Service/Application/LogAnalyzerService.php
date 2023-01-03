@@ -44,7 +44,37 @@ class LogAnalyzerService
         $tmpFile->rewind();
 
 //        throw LogFileException; we throw custom exception if smth will go wrong and will handle it in controller
-
         return $result;
+        
+        
+        // other option 
+        $result = (bool) $this->cleanupLogs($this->tmpFileName, $request->getOutdatedTime()->getTimestamp());
+        
+        return $result;
+    }
+    
+    private function cleanupLogs(string $logFile, int $maxAge): int
+    {
+        $lines = file($logFile);
+        $newLines = [];
+        $removed = 0;
+
+        foreach ($lines as $line) {
+        if (preg_match('/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s+(.*)$/', $line, $matches)) {
+          $timestamp = $matches[1];
+          $message = $matches[2];
+
+          $age = (time() - strtotime($timestamp)) / 86400; // 86400 seconds in a day
+          if ($age <= $maxAge) {
+            $newLines[] = $line;
+          } else {
+            $removed++;
+          }
+        }
+        }
+
+        file_put_contents($logFile, implode("\n", $newLines));
+
+        return $removed;
     }
 }
